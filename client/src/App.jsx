@@ -1,7 +1,7 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useUser, UserButton, useAuth } from '@clerk/clerk-react';
 import { LayoutDashboard, Wallet, Users, PieChart } from 'lucide-react';
-import axios from 'axios';
+import api from './api';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 import Dashboard from './pages/Dashboard';
@@ -66,7 +66,7 @@ function App() {
       const syncLocalUser = async () => {
         try {
           const token = await getToken();
-          const res = await axios.post('http://localhost:5000/api/users/sync', {
+          const res = await api.post('/users/sync', {
             email: user.primaryEmailAddress?.emailAddress,
             name: user.fullName
           }, {

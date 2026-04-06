@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '@clerk/clerk-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend, PieChart, Pie, Cell } from 'recharts';
 
@@ -15,7 +15,7 @@ export default function Summaries() {
       try {
         const token = await getToken();
         // Use the same dashboard summary endpoint for advanced insights
-        const res = await axios.get(`http://localhost:5000/api/dashboard/summary?period=${period}`, {
+        const res = await api.get(`/dashboard/summary?period=${period}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useAuth, useUser } from '@clerk/clerk-react';
 
 export default function Users() {
@@ -11,7 +11,7 @@ export default function Users() {
   const fetchUsers = async () => {
     try {
       const token = await getToken();
-      const res = await axios.get('http://localhost:5000/api/users', {
+      const res = await api.get('/users', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data);
@@ -34,7 +34,7 @@ export default function Users() {
       const targetUser = users.find(u => u._id === id);
       const payload = { role: targetUser.role, status: targetUser.status, [field]: value };
       
-      await axios.put(`http://localhost:5000/api/users/${id}`, payload, {
+      await api.put(`/users/${id}`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchUsers();

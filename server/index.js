@@ -34,7 +34,10 @@ app.use("/api/webhooks", webhooksRouter);
 
 // Standard parsers
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ["https://a-one-omega.vercel.app", "http://localhost:5173", "http://localhost:5000"],
+  credentials: true
+}));
 
 // Protected API routes
 app.use("/api/records", recordsRouter);

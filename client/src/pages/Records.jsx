@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '@clerk/clerk-react';
 import { RoleContext } from '../App';
 
@@ -28,7 +28,7 @@ export default function Records() {
         params.append("endDate", filterEndDate);
       }
       
-      const res = await axios.get(`http://localhost:5000/api/records?${params.toString()}`, {
+      const res = await api.get(`/records?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRecords(res.data);
@@ -55,11 +55,11 @@ export default function Records() {
     try {
       const token = await getToken();
       if (editRecord) {
-        await axios.put(`http://localhost:5000/api/records/${editRecord._id}`, newRec, {
+        await api.put(`/records/${editRecord._id}`, newRec, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post('http://localhost:5000/api/records', newRec, {
+        await api.post('/records', newRec, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -76,7 +76,7 @@ export default function Records() {
     if(!window.confirm("Are you sure you want to delete this record?")) return;
     try {
       const token = await getToken();
-      await axios.delete(`http://localhost:5000/api/records/${id}`, {
+      await api.delete(`/records/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchRecords();

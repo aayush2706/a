@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '@clerk/clerk-react';
 
 export default function Dashboard() {
@@ -12,7 +12,7 @@ export default function Dashboard() {
       try {
         const token = await getToken();
         // Make sure to add await here
-        const res = await axios.get('http://localhost:5000/api/dashboard/summary', {
+        const res = await api.get('/dashboard/summary', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);
