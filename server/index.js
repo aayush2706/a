@@ -45,12 +45,8 @@ app.use("/api/users", usersRouter);
 const distPath = path.join(__dirname, "../client/dist");
 app.use(express.static(distPath));
 
-// For SPA routing, serve index.html for all non-API paths
-app.use((req, res, next) => {
-  if (req.path.startsWith("/api")) {
-    return next();
-  }
-  res.sendFile(path.join(distPath, "index.html"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
 });
 
 // DB Connection & Server Start
